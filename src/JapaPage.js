@@ -12,18 +12,14 @@ import {Avatar, Badge, IconButton, Surface, Text} from 'react-native-paper';
 import {getData, storeData} from './LocalAsyncStorage';
 import Sound from 'react-native-sound';
 import {AudioAssets} from '../assets/Assets';
+import BannerAdd from './BannerAdd';
 
 Sound.setCategory('Playback');
 
 const JapaPage = () => {
-  //   const adUnitId = __DEV__
-  //     ? TestIds.APP_OPEN
-  //     : 'ca-app-pub-5476728499097624/2898731743';
   var beepAudio = new Sound(AudioAssets.beep, Sound.MAIN_BUNDLE, error => {});
   var audio = new Sound(AudioAssets.conchShell, Sound.MAIN_BUNDLE, error => {});
   const oneNotEight = 5;
-  //
-  //   var beepAudio = null;
   const [permanent108Count, setPermanent108Count] = useState(0);
   const [permanentRounds, setPermanentRounds] = useState(0);
 
@@ -33,7 +29,6 @@ const JapaPage = () => {
   var [vibrationIconFlag, setVibrationIconFlag] = useState(true);
 
   useEffect(() => {
-    // beepAudio = new Sound("beep-08b.mp3", Sound.MAIN_BUNDLE, (error) => {});
     getData('@savedJapaData').then(value => populate(value));
   }, []);
 
@@ -190,14 +185,23 @@ const JapaPage = () => {
           {/* <AddCircleIcon sx={{ fontSize: 250 }} color="success" /> */}
         </IconButton>
         <View style={{flexDirection: 'row'}}>
-          <IconButton size={30} icon="volume-high" iconColor={volumeFlag ? "black" : "grey"}  onPress={volumeButton}>
+          <IconButton
+            size={30}
+            icon="volume-high"
+            iconColor={volumeFlag ? 'black' : 'grey'}
+            onPress={volumeButton}>
             {/* <VolumeUpIcon color={volumeFlag ? "inherit" : "disabled"} sx={{ fontSize: 50 }} /> */}
           </IconButton>
-          <IconButton size={30} icon="vibrate" iconColor={vibrationIconFlag ? "black" : "grey"} onPress={vibrationButton}>
+          <IconButton
+            size={30}
+            icon="vibrate"
+            iconColor={vibrationIconFlag ? 'black' : 'grey'}
+            onPress={vibrationButton}>
             {/* <VibrationIcon sx={{ fontSize: 50 }} color={vibrationIconFlag ? "inherit" : "disabled"} /> */}
           </IconButton>
         </View>
       </Surface>
+      <BannerAdd />
     </View>
   );
 };
@@ -215,6 +219,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   mainView: {
+    marginBottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
   },
