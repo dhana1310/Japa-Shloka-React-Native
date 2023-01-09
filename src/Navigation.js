@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
 import AddShloka from './AddShloka';
+import AddShloka2 from './AddShloka2';
 import JapaPage from './JapaPage';
 
 const AlbumsRoute = () => <Text>Albums</Text>;
@@ -19,7 +20,7 @@ const Navigation = () => {
   const renderScene = BottomNavigation.SceneMap({
     japa: JapaPage,
     add: AddShloka,
-    view: RecentsRoute
+    view: AddShloka2
   });
 
   return (
