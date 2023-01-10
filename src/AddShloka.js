@@ -14,9 +14,10 @@ import ChipsArray from './ChipsArray';
 // import { Button, Checkbox, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import ShowToast from './ShowToast';
 import {getData, storeData} from './LocalAsyncStorage';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import { Button, Checkbox } from 'react-native-paper';
+import {ScrollView, StyleSheet, Text, ToastAndroid, View} from 'react-native';
+import {Button, Checkbox} from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
+import BannerAdd from './BannerAdd';
 const AddShloka = () => {
   const memorisedShlokas = useFetchMemorisedShlokas();
   const [totalChaptersList, setTotalChaptersList] = useState([]);
@@ -142,8 +143,7 @@ const AddShloka = () => {
     setTotalShlokaList([]);
     // const selectedIndex = e.target.options.selectedIndex;
     // const shortCode = e.target.options[selectedIndex].getAttribute("data-key");
-    currentSelectedDetails.onScreenCurrentChapterNumber =
-      event.toString();
+    currentSelectedDetails.onScreenCurrentChapterNumber = event.toString();
     shlokaList
       .filter(
         selectedBook =>
@@ -258,16 +258,18 @@ const AddShloka = () => {
     }
     var [isShlokaPresent, index] = hasShloka(
       chapter.selectedShlokas,
-      event.target.id,
+      event._targetInst.pendingProps.id,
     );
-    if (event.target.checked && !isShlokaPresent) {
+    if (//event.target.checked && 
+      !isShlokaPresent) {
       var today = new Date();
       // today.setDate(today.getDate() - 9);
       chapter.selectedShlokas.push({
-        shlokaNumber: event.target.id,
+        shlokaNumber: event._targetInst.pendingProps.id,
         addedDate: today,
       });
-    } else if (!event.target.checked) {
+    } else //if (!event.target.checked)
+     {
       if (isShlokaPresent) {
         chapter.selectedShlokas.splice(index, 1);
       }
@@ -288,6 +290,8 @@ const AddShloka = () => {
   };
 
   const shlokaNumberSelection = event => {
+    console.log(event._targetInst.pendingProps.id);
+    const selectedShlokaNumber = event._targetInst.pendingProps.id;
     var shlokaValue = currentSelectedDetails.onScreenCurrentBook + ' ';
     if (currentSelectedDetails.onScreenCurrentBook === 'BG') {
       currentSelectedDetails.allShlokasList
@@ -307,7 +311,7 @@ const AddShloka = () => {
                 shlokaValue +
                 currentSelectedDetails.onScreenCurrentChapterNumber +
                 '.' +
-                event.target.id;
+                selectedShlokaNumber;
               addRemoveShlokas(event, chapter, shlokaValue);
             });
         });
@@ -343,7 +347,7 @@ const AddShloka = () => {
                       : '.') +
                     currentSelectedDetails.onScreenCurrentChapterNumber +
                     '.' +
-                    event.target.id;
+                    selectedShlokaNumber;
                   addRemoveShlokas(event, chapter, shlokaValue);
                 });
             });
@@ -398,12 +402,18 @@ const AddShloka = () => {
     setShowToast(
       populateToast(true, 'success', 'Success', 'Your data is saved!!', '100%'),
     );
+    ToastAndroid.showWithGravity(
+      "Data saved successfully",
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER
+    );
     console.log(JSON.stringify(currentSelectedDetails));
     // saveMemorisedShlokas();
   };
 
   return (
-    <ScrollView>
+    <View style={styles.mainView}>
+    <ScrollView style={styles.surface}>
       <View className="row mt-3">
         <View className="col-md-14 mb-3">
           <View>
@@ -420,16 +430,22 @@ const AddShloka = () => {
             <View>
               <RNPickerSelect
                 onValueChange={onCantoChange}
-                items={totalCantosList.map(c => ({label: `${c}`, value: `${c}`}))}
+                items={totalCantosList.map(c => ({
+                  label: `${c}`,
+                  value: `${c}`,
+                }))}
                 style={pickerSelectStyles}
               />
             </View>
           )}
           {totalChaptersList.length > 0 && (
             <View>
-                <RNPickerSelect
+              <RNPickerSelect
                 onValueChange={onChapterChange}
-                items={totalChaptersList.map(c => ({label: `${c}`, value: `${c}`}))}
+                items={totalChaptersList.map(c => ({
+                  label: `${c}`,
+                  value: `${c}`,
+                }))}
                 style={pickerSelectStyles}
               />
             </View>
@@ -437,35 +453,32 @@ const AddShloka = () => {
           <View style={styles.checkboxContainer}>
             {totalShlokaList.map(shlokaNumber => (
               <View
-              style={styles.checkboxContainer}
+                style={styles.checkboxContainer}
                 key={
                   `${currentSelectedDetails.onScreenCurrentChapterNumber}.` +
                   shlokaNumber
                 }>
-                  <Checkbox
-                    style={styles.checkbox}
-                    type="checkbox"
-                    // id={`${shlokaNumber}`}
-                    id={`${shlokaNumber}`}
-                    name="vehicle1"
-                    status={totalSelectedShlokaList.includes(
-                      currentSelectedDetails.onScreenCurrentBook +
-                        ' ' +
-                        (currentSelectedDetails.onScreenCurrentBook === 'BG'
-                          ? ''
-                          : currentSelectedDetails.onScreenCurrentBook === 'CC'
-                          ? currentSelectedDetails.onScreenCurrentCanto + ' '
-                          : currentSelectedDetails.onScreenCurrentCanto + '.') +
-                        currentSelectedDetails.onScreenCurrentChapterNumber +
-                        '.' +
-                        shlokaNumber,
-                    )}
-                    onPress={shlokaNumberSelection}
-                  />
-                  <Text
-                  style={styles.label}>
-                  {`${shlokaNumber}`}
-                </Text>
+                <Checkbox
+                  style={styles.checkbox}
+                  type="checkbox"
+                  // id={`${shlokaNumber}`}
+                  id={`${shlokaNumber}`}
+                  name="vehicle1"
+                  status={totalSelectedShlokaList.includes(
+                    currentSelectedDetails.onScreenCurrentBook +
+                      ' ' +
+                      (currentSelectedDetails.onScreenCurrentBook === 'BG'
+                        ? ''
+                        : currentSelectedDetails.onScreenCurrentBook === 'CC'
+                        ? currentSelectedDetails.onScreenCurrentCanto + ' '
+                        : currentSelectedDetails.onScreenCurrentCanto + '.') +
+                      currentSelectedDetails.onScreenCurrentChapterNumber +
+                      '.' +
+                      shlokaNumber
+                  ) ? "checked" : "unchecked"}
+                  onPress={shlokaNumberSelection}
+                />
+                <Text style={styles.label}>{`${shlokaNumber}`}</Text>
               </View>
             ))}
           </View>
@@ -486,58 +499,72 @@ const AddShloka = () => {
         )}
       </View>
       <View className="row mt-3">
-        <ChipsArray totalSelectedShlokaList={totalSelectedShlokaList} />
+        <ChipsArray id="chipsArray" totalSelectedShlokaList={totalSelectedShlokaList} />
       </View>
-      {<ShowToast showToast={showToast}></ShowToast>}
+      {/* {<ShowToast showToast={showToast}></ShowToast>} */}
     </ScrollView>
+    <BannerAdd unitId={'ca-app-pub-5476728499097624/7830308421'}/>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    checkboxContainer: {
-      flexDirection: "row",
-      marginBottom: 20,
-      float: "left",
-      flexWrap: "wrap",
-    },
-    checkbox: {
-        flexWrap: "wrap",
-        float: "left",
-      alignSelf: "center",
-    },
-    label: {
-        marginRight: 24,
-      margin: 8,
-      color:"red"
-    },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    float: 'left',
+    flexWrap: 'wrap',
+  },
+  checkbox: {
+    flexWrap: 'wrap',
+    float: 'left',
+    alignSelf: 'center',
+  },
+  label: {
+    marginRight: 24,
+    margin: 8,
+    color: 'red',
+  },
+  surface: {
+    padding: 0,
+    height: '85%',
+    width: '95%',
+    marginBottom: 90,
+    marginTop: 10
+  },
+  mainView: {
+    marginBottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
 
 const pickerSelectStyles = StyleSheet.create({
-    inputIOS: {
-      fontSize: 16,
-      paddingVertical: 12,
-      paddingHorizontal: 10,
-      borderWidth: 1,
-      borderColor: 'gray',
-      borderRadius: 4,
-      color: 'black',
-      paddingRight: 30, // to ensure the text is never behind the icon
-    },
-    inputAndroid: {
-      fontSize: 16,
-      paddingHorizontal: 10,
-      paddingVertical: 8,
-      borderWidth: 0.5,
-      borderColor: 'purple',
-      borderRadius: 8,
-      color: 'black',
-      paddingRight: 30, // to ensure the text is never behind the icon
-    },
-  });
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
 
 export default AddShloka;

@@ -104,12 +104,6 @@ export const defaultCurrentSelectedDetails = {
 
 export const shlokaList = [
   {
-    bookShortCode: "",
-    bookName: "Select the book",
-    cantosList: [],
-    chaptersList: [],
-  },
-  {
     bookShortCode: "BG",
     bookName: "Bhagavad-gītā",
     cantosList: [],

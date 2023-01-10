@@ -6,9 +6,9 @@ import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 //   ? TestIds.BANNER
 //   : 'ca-app-pub-5476728499097624/2898731743';
 
-const BannerAdd = () => {
+const BannerAdd = ({unitId}) => {
   return (
-    <View style={{position: 'absolute', bottom: 0, alignSelf: 'center'}}>
+    <View style={{position: 'absolute', bottom: 0, alignSelf: 'center', marginBottom: 0, margin: 0}}>
       <BannerAd
         size={BannerAdSize.BANNER}
         unitId={'ca-app-pub-5476728499097624/2898731743'}

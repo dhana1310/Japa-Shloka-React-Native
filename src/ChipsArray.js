@@ -1,10 +1,9 @@
-import * as React from "react";
-import { Text, View } from "react-native";
-import { Chip } from 'react-native-paper';
-import { Surface } from "react-native-paper";
+import * as React from 'react';
+import {Text, View} from 'react-native';
+import {Chip} from 'react-native-paper';
+import {Surface} from 'react-native-paper';
 
-
-const ChipsArray = ({ totalSelectedShlokaList }) => {
+const ChipsArray = ({totalSelectedShlokaList}) => {
   const [chipData, setChipData] = React.useState(totalSelectedShlokaList);
 
   React.useEffect(() => {
@@ -19,26 +18,67 @@ const ChipsArray = ({ totalSelectedShlokaList }) => {
   //   };
 
   return (
-    <View>
-        <Text>Existing/newly selected shlokas</Text>
-      <Surface
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          flexWrap: "wrap",
-          listStyle: "none",
-          p: 0.5,
-          m: 3,
-        }}
-        component="ul"
-      >
-        {chipData.map((data) => {
+    <View id="chips-array-view"
+      style={
+        {
+          // display: "flex",
+          // justifyContent: "center",
+          // flexWrap: "wrap",
+          // float: 'left',
+          // alignSelf: 'center',
+          // padding: 0.5,
+          // margin: 10,
+        }
+      }>
+      <Text style={{color: 'green'}}>Existing/newly selected shlokas</Text>
+      <Surface id="chips-array-surface"
+        style={{
+          // display: "flex",
+          // justifyContent: "center",
+          flexWrap: 'wrap',
+          // alignSelf: 'center',
+          padding: 0.5,
+          // margin: 3,
+        }}>
+        {chipData.map(data => {
           return (
+            <View
+            key={`${data}` + "view"}
+              style={{
+                display: 'flex',
+                // justifyContent: "center",
+                flexWrap: 'wrap',
+                float: 'left',
+                // alignSelf: 'center',
+                margin: 4,
+                // padding: 0.5,
+              }}>
               <Chip
+                style={{
+                  // display: "flex",
+                  // justifyContent: "center",
+                  flexWrap: 'wrap',
+                  float: 'left',
+                  // alignSelf: 'center',
+
+                  // padding: 0.5,
+                }}
+                key={data}
+                mode="outlined"
                 //   icon={icon}
-                color={data.startsWith("BG") ? "primary" : data.startsWith("SB") ? "success" : "secondary"}
+                elevated={true}
+                selectedColor={
+                  data.startsWith('BG')
+                    ? 'red'
+                    : data.startsWith('SB')
+                    ? 'blue'
+                    : '#cc00ff'
+                }
                 //   onDelete={data.label === 'React' ? undefined : handleDelete(data)}
-              >{data}</Chip>
+              >
+                {data}
+              </Chip>
+            </View>
           );
         })}
       </Surface>

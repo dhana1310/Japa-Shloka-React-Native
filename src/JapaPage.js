@@ -201,7 +201,7 @@ const JapaPage = () => {
           </IconButton>
         </View>
       </Surface>
-      <BannerAdd />
+      <BannerAdd unitId={'ca-app-pub-5476728499097624/2898731743'}/>
     </View>
   );
 };

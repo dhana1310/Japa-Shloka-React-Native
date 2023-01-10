@@ -25,6 +25,7 @@ const Navigation = () => {
 
   return (
     <BottomNavigation
+      style={{marginTop:0}}
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
       renderScene={renderScene}
