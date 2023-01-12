@@ -501,8 +501,8 @@ const AddShloka = () => {
       <View className="row mt-3">
         <ChipsArray id="chipsArray" totalSelectedShlokaList={totalSelectedShlokaList} />
       </View>
-      {/* {<ShowToast showToast={showToast}></ShowToast>} */}
     </ScrollView>
+    {/* {<ShowToast showToast={showToast}></ShowToast>} */}
     <BannerAdd unitId={'ca-app-pub-5476728499097624/7830308421'}/>
     </View>
   );
